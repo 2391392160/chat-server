@@ -1,0 +1,9 @@
+build/
+*.o
+*.out
+server
+client
+stress
+.vscode/
+.idea/
+*.swp
