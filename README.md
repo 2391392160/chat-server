@@ -1,22 +1,24 @@
-# TCP Chat Server
+# ChatServer
 
-基于 epoll ET + 线程池的高并发 TCP 聊天服务器。
+基于 Reactor 模式的高并发聊天服务器（C++11/Linux）
 
 ## 技术栈
-
 - C++11
-- Linux (epoll, socket, pthread)
-- 自定义二进制协议
+- epoll ET + 非阻塞 IO
+- 自定义线程池
+- 自定义二进制协议（4字节长度头 + 1字节类型 + payload）
+- spdlog 日志
+- CMake 构建
 
-## 架构
+## 压测数据
+| 并发连接 | 消息数 | 丢包率 | QPS | 平均延迟 |
+|---|---|---|---|---|
+| 500    | 5000   | 0%    | 4149 | 424us    |
 
-- **主线程**：epoll_wait + accept，LT 模式监听端口
-- **工作线程**：4 线程池处理读写业务，ET 模式触发
-- **协议层**：自定义二进制协议，4 字节长度头 + 1 字节类型 + payload
-
-## 编译
-
+## 快速开始
 ```bash
 mkdir build && cd build
-cmake ..
-make -j
+cmake .. -DCMAKE_CXX_FLAGS="-O0"
+make -j2
+./server
+```
