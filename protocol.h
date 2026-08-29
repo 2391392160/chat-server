@@ -53,7 +53,7 @@ inline bool decode_packet(std::string &recv_buf, uint8_t &out_type, std::string 
   if (pkg_len < 5 || pkg_len > MAX_PKG_LEN) {
     recv_buf.erase(0, 4);
     return false;
-}
+}if (recv_buf.size() < pkg_len) return false;
 
    // 提取数据
    out_type = recv_buf[4]; // 提取类型：长度头占 4 字节，类型在第 5 个字节（下标 4）

@@ -19,7 +19,7 @@ void recv_thread(int sock_fd) {
         int n = recv(sock_fd, buf, sizeof(buf), 0);
         if (n <= 0) {
             if (n < 0 && (errno == EAGAIN || errno == EWOULDBLOCK)) {
-                continue;   // 非阻塞，没数据，继续循环
+                continue;   // 
             }
             std::cout << "\n[系统] 与服务器的连接已断开" << std::endl;
             g_running = false;   // ← 通知主线程和心跳线程退出
@@ -80,6 +80,7 @@ int main()
         std::cout << "创建socket失败" << std::endl;
         return -1;
     }
+    //set_nonblocking(sock_fd);
     // 准备服务端地址
     struct sockaddr_in server_addr;
     memset(&server_addr, 0, sizeof(server_addr));
